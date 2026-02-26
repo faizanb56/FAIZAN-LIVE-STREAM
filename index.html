@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T20 World Cup Live | Premium Streaming</title>
+    <title>T20 World Cup Live | Tamasha HD</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -33,102 +33,71 @@
             box-shadow: 0 0 50px -12px rgba(37, 99, 235, 0.2);
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
+        /* Smooth animation for switching */
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body class="min-h-screen">
 
-    <!-- Header -->
+    <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-effect border-b border-white/5 py-4 px-6">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/30">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
                     <i class="fas fa-play text-white text-sm"></i>
                 </div>
                 <h1 class="text-xl font-extrabold tracking-tighter uppercase">
                     T20 <span class="text-blue-500">World Cup</span>
                 </h1>
             </div>
-            <div class="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-400 uppercase tracking-widest">
-                <a href="#" class="hover:text-white transition-colors">Home</a>
-                <a href="#" class="hover:text-white transition-colors">Schedule</a>
-                <a href="#" class="text-white flex items-center gap-2">
-                    <span class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span> Live
-                </a>
+            <div class="flex items-center gap-2 bg-red-600/10 px-3 py-1 rounded-full border border-red-600/20">
+                <span class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
+                <span class="text-[10px] font-bold text-red-500 uppercase tracking-widest">Live Now</span>
             </div>
-            <button onclick="toggleSidebar()" class="lg:hidden text-2xl">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </nav>
-
-    <!-- Sidebar (Mobile Only) -->
-    <div id="mobileSidebar" class="fixed inset-0 z-[60] bg-black/95 transform translate-x-full transition-transform duration-300 p-8 lg:hidden">
-        <div class="flex justify-between items-center mb-10">
-            <h2 class="text-2xl font-bold">Select Server</h2>
-            <button onclick="toggleSidebar()" class="text-3xl text-gray-400">&times;</button>
-        </div>
-        <div id="mobileServerList" class="space-y-4">
-            <!-- Dynamic Injection -->
-        </div>
-    </div>
 
     <!-- Main Content -->
     <main class="pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
         <div class="grid lg:grid-cols-12 gap-8">
             
-            <!-- Left: Video Player Section -->
+            <!-- Player Section -->
             <div class="lg:col-span-8 space-y-6">
-                <div class="video-container relative aspect-video bg-black rounded-3xl overflow-hidden border border-white/10 group">
+                <div class="video-container relative aspect-video bg-black rounded-3xl overflow-hidden border border-white/10">
                     <video id="videoPlayer" class="w-full h-full" controls playsinline poster="https://share.google/1p5RXc0iE5pnLHI1q"></video>
-                    
-                    <div class="absolute top-4 left-4 flex items-center gap-2 pointer-events-none">
-                        <span class="glass-effect px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-white/20">
-                            <i class="fas fa-broadcast-tower text-blue-500 mr-1"></i> Live Stream
-                        </span>
+                    <div class="absolute bottom-4 right-4 pointer-events-none">
+                        <span id="qualityBadge" class="glass-effect px-3 py-1 rounded-lg text-[10px] font-bold text-white border border-white/20 uppercase">1080P HD+</span>
                     </div>
                 </div>
 
                 <div class="glass-effect p-6 rounded-3xl">
-                    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-                        <div>
-                            <h2 id="streamTitle" class="text-2xl font-bold mb-1">Star Sports 1 HD</h2>
-                            <p class="text-gray-400 text-sm flex items-center gap-2">
-                                <i class="fas fa-shield-alt text-blue-500"></i> Secure Encryption Enabled • 2026 Season
-                            </p>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="bg-blue-600/10 text-blue-400 text-xs font-bold px-4 py-2 rounded-xl border border-blue-500/20">
-                                4K ULTRA HD
-                            </span>
-                        </div>
-                    </div>
+                    <h2 id="streamTitle" class="text-2xl font-bold mb-1 tracking-tight">Tamasha Broadcast PK</h2>
+                    <p class="text-gray-400 text-sm flex items-center gap-2">
+                        <i class="fas fa-signal text-blue-500"></i> High Speed Server • Low Latency Enabled
+                    </p>
                 </div>
             </div>
 
-            <!-- Right: Server Selection -->
+            <!-- Server Selection -->
             <div class="lg:col-span-4 space-y-6">
-                <div class="flex items-center justify-between px-2">
-                    <h3 class="text-lg font-bold uppercase tracking-widest text-gray-400">Streaming Servers</h3>
-                    <span id="serverCount" class="text-xs font-bold text-blue-500 bg-blue-500/10 px-2 py-1 rounded-md">6 ONLINE</span>
-                </div>
-                
-                <div id="desktopServerList" class="space-y-3">
-                    <!-- Dynamic Injection -->
+                <div class="px-2">
+                    <h3 class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500 mb-4">Select Quality</h3>
+                    <div id="serverList" class="space-y-3">
+                        <!-- Servers Injected Here -->
+                    </div>
                 </div>
 
-                <div class="glass-effect rounded-3xl p-6 relative overflow-hidden group border border-blue-500/10">
-                    <div class="relative z-10">
-                        <h4 class="font-bold text-white mb-1">Experiencing Buffer?</h4>
-                        <p class="text-xs text-gray-400 mb-4 leading-relaxed">Try switching to Server 3 or Server 5 for low-latency P2P delivery.</p>
-                        <button class="w-full bg-white text-black font-extrabold text-xs py-3 rounded-xl hover:scale-[1.02] transition-transform">
-                            REFRESH PLAYER
-                        </button>
+                <div class="glass-effect rounded-3xl p-6 border border-blue-500/10">
+                    <div class="flex items-center gap-4 mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-500 text-xs">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h4 class="font-bold text-sm">Quality Guide</h4>
                     </div>
-                    <i class="fas fa-bolt absolute -right-4 -bottom-4 text-blue-500/10 text-8xl transition-transform group-hover:scale-110"></i>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        If you are on Mobile Data, use <b>360p</b> or <b>480p</b>. For Wi-Fi users, <b>1080p HD+</b> provides the best premium experience.
+                    </p>
                 </div>
             </div>
 
@@ -137,75 +106,54 @@
 
     <script>
         const streams = [
-            { id: 1, name: "Star Sports 1 HD", url: "https://tgs5.myluck1.top:8088/mobile/stream7_320p/playlist.m3u8?vidictid=204938429184&id=27&pk=76f15de4d6c3b4d50ae7851fd623ade80757917852e2144612e93d6987733f168bc86e10006c9f307e95f44a55488c1581a1ab0ded6f6c536a0fd2c34c05d129", provider: "Star Network", quality: "Auto Quality", icon: "fa-star" },
-            { id: 2, name: "Global Cricbuzz", url: "https://tgs5.myluck1.top:8088/mobile/stream3_320p/playlist.m3u8?vidictid=204921698610&id=11&pk=9b166ec440052e524ab9570b1b64b876fe45795e11e90a1cd246812ea675f74a4f0e2fd9b82bfef82453d8bdda7952cbd8140c83cb11f24e7c0d9648775c724a", provider: "Cricbuzz", quality: "720p HD", icon: "fa-globe" },
-            { id: 3, name: "Tamasha Premium", url: "https://tencentcdn8.tamashaweb.com/v1/019bf00087161567ee93346674d025/019bffb7d77215fc600b1b67f81952/tmsh_srt_output_clone_1080p.m3u8?timeshift=1&mode=6&delay=1800", provider: "Tamasha PK", quality: "1080p Full HD", icon: "fa-bolt" },
-            { id: 4, name: "PTV Sports Smooth", url: "https://cricloungelive.short.gy/livepakistanteam/ICC_T20WC_2026/PTV50fps.m3u8", provider: "PTV Network", quality: "720p @ 50fps", icon: "fa-tv" },
-            { id: 5, name: "Urdu Commentary", url: "https://cricloungelive.short.gy/livepakistanteam/ICC_T20WC_2026/Urdu.m3u8", provider: "Local Feed", quality: "SD / Urdu", icon: "fa-microphone" },
-            { id: 6, name: "Secondary Backup", url: "https://tencentcdn8.tamashaweb.com/v1/019bf00087161567ee93346674d025/019bffb7d77215fc600b1b67f81952/tmsh_srt_output_clone_480p.m3u8?timeshift=1&mode=6&delay=1800", provider: "Tamasha PK", quality: "480p Stable", icon: "fa-database" }
+            { name: "1080P HD+ Quality", quality: "1080P", url: "https://tencentcdn8.tamashaweb.com/v1/019bf00087161567ee93346674d025/019bffb7d77215fc600b1b67f81952/tmsh_srt_output_clone_1080p.m3u8?timeshift=1&mode=6&delay=1800", icon: "fa-bolt" },
+            { name: "720P High Definition", quality: "720P", url: "https://tencentcdn8.tamashaweb.com/v1/019bf00087161567ee93346674d025/019bffb7d77215fc600b1b67f81952/tmsh_srt_output_clone_720p.m3u8?timeshift=1&mode=6&delay=1800", icon: "fa-high-definition" },
+            { name: "480P Standard Quality", quality: "480P", url: "https://tencentcdn8.tamashaweb.com/v1/019bf00087161567ee93346674d025/019bffb7d77215fc600b1b67f81952/tmsh_srt_output_clone_480p.m3u8?timeshift=1&mode=6&delay=1800", icon: "fa-mobile-alt" },
+            { name: "360P Medium Quality", quality: "360P", url: "https://tencentcdn8.tamashaweb.com/v1/019bf00087161567ee93346674d025/019bffb7d77215fc600b1b67f81952/tmsh_srt_output_clone_360p.m3u8?timeshift=1&mode=6&delay=1800", icon: "fa-signal" },
+            { name: "240P Data Saver", quality: "240P", url: "https://tencentcdn8.tamashaweb.com/v1/019bf00087161567ee93346674d025/019bffb7d77215fc600b1b67f81952/tmsh_srt_output_clone_240p.m3u8?timeshift=1&mode=6&delay=1800", icon: "fa-leaf" }
         ];
 
         let currentHls = null;
-        let activeId = 1;
+        let activeIdx = 0;
 
         function initPlayer(url) {
             const video = document.getElementById('videoPlayer');
-            
-            if (currentHls) {
-                currentHls.destroy();
-            }
+            if (currentHls) currentHls.destroy();
 
             if (Hls.isSupported()) {
                 currentHls = new Hls();
                 currentHls.loadSource(url);
                 currentHls.attachMedia(video);
-                currentHls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    video.play().catch(() => console.log("User interaction required"));
-                });
+                currentHls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = url;
             }
         }
 
-        function switchStream(id) {
-            const stream = streams.find(s => s.id === id);
-            activeId = id;
-            document.getElementById('streamTitle').innerText = stream.name;
+        function switchStream(idx) {
+            activeIdx = idx;
+            const stream = streams[idx];
+            document.getElementById('qualityBadge').innerText = stream.quality + " LIVE";
             initPlayer(stream.url);
             renderServers();
-            
-            if(window.innerWidth < 1024) {
-                toggleSidebar();
-            }
         }
 
         function renderServers() {
-            const desktopList = document.getElementById('desktopServerList');
-            const mobileList = document.getElementById('mobileServerList');
-            
-            const html = streams.map(s => `
-                <button onclick="switchStream(${s.id})" class="w-full flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 text-left ${activeId === s.id ? 'active-server' : 'glass-effect hover:bg-white/5 border-white/5'}">
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center ${activeId === s.id ? 'bg-white/20' : 'bg-white/5'}">
-                        <i class="fas ${s.icon} ${activeId === s.id ? 'text-white' : 'text-blue-500'}"></i>
+            const list = document.getElementById('serverList');
+            list.innerHTML = streams.map((s, i) => `
+                <button onclick="switchStream(${i})" class="w-full flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 text-left ${activeIdx === i ? 'active-server border-blue-400' : 'glass-effect border-white/5 hover:border-white/20'}">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center ${activeIdx === i ? 'bg-white/20' : 'bg-blue-500/10'}">
+                        <i class="fas ${s.icon} ${activeIdx === i ? 'text-white' : 'text-blue-500'}"></i>
                     </div>
                     <div class="flex-1">
-                        <div class="text-sm font-bold truncate">${s.name}</div>
-                        <div class="text-[10px] uppercase tracking-wider opacity-60">${s.quality}</div>
+                        <div class="text-sm font-bold">${s.name}</div>
+                        <div class="text-[10px] opacity-60 uppercase tracking-widest">Tamasha Server</div>
                     </div>
-                    ${activeId === s.id ? '<i class="fas fa-chevron-right text-white/50"></i>' : ''}
+                    ${activeIdx === i ? '<i class="fas fa-check-circle text-white"></i>' : ''}
                 </button>
             `).join('');
-
-            desktopList.innerHTML = html;
-            mobileList.innerHTML = html;
         }
 
-        function toggleSidebar() {
-            const sidebar = document.getElementById('mobileSidebar');
-            sidebar.classList.toggle('translate-x-full');
-        }
-
-        // Initialize
         window.onload = () => {
             renderServers();
             initPlayer(streams[0].url);
@@ -214,4 +162,3 @@
 </body>
 </html>
 
-                      
